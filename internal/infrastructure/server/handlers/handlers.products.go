@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -21,6 +22,7 @@ func GetDetailProductEndpoint(service ports.ProductService) func(c *gin.Context)
 				return
 			}
 			product, err = service.Detail(idNumb)
+			fmt.Println("Estructura devuela por la db", product)
 			if err != nil {
 				c.AbortWithStatus(http.StatusNoContent)
 				return

@@ -12,10 +12,9 @@ func NewUserRepository(db Gorm) *Repository {
 	}
 }
 
-func (r *Repository) Insert(businessOwner *domain.User) error {
-
+func (r *Repository) Insert(user *domain.User) error {
 	repo := *r.db
-	result := repo.Table("users").Create(&businessOwner)
+	result := repo.Table("users").Create(&user)
 	if result.Error != nil {
 		return result.Error
 	}
