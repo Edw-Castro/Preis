@@ -7,9 +7,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func SetupDatabaseArticleConnection() (*gorm.DB, error) {
-	dsn := "root:password@tcp(localhost:3306)/database2?charset=utf8mb4&parseTime=True&loc=Local"
+func SetupDatabaseUsersConnection() (*gorm.DB, error) {
+	dsn := "root:password@tcp(localhost:3306)/database1?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
 	if err != nil {
 		panic("Error al conectar a la base de datos: " + err.Error())
 	}
