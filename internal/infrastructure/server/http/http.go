@@ -14,6 +14,7 @@ func RegisterRoutes(engine *gin.Engine) {
 	engine.POST("/auth/register", routes.Register())
 	engine.GET("product/:id", routes.ProductDetail())
 	engine.POST("/business-owner", routes.SignUpBusinessOwner())
+	engine.POST("/preis/product/compare", routes.ComparePreisProduct())
 	engine.GET("/home", middlewares.AuthMiddleware(), func(c *gin.Context) {
 		// Coloca aquí la lógica para proteger la ruta de inicio.
 		c.JSON(http.StatusOK, gin.H{"message": "Esta es la página de inicio protegida"})
