@@ -3,9 +3,9 @@ package routes
 import (
 	"log"
 
+	"github.com/Bucki28/Preis/internal/infrastructure/repositories/sql"
 	"github.com/Edw-Castro/Preis/internal/core/services"
 	database "github.com/Edw-Castro/Preis/internal/infrastructure/database/mysql"
-	"github.com/Edw-Castro/Preis/internal/infrastructure/repositories/sql"
 	server "github.com/Edw-Castro/Preis/internal/infrastructure/server/handlers"
 	"github.com/gin-gonic/gin"
 )
