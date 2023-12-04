@@ -10,21 +10,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CorsMiddleware() gin.HandlerFunc {
+func corsMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*") // Reemplaza con la URL de tu aplicación React
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST,PUT, DELETE, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 
-		if c.Request.Method == stdhttp.MethodOptions {
+		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(stdhttp.StatusOK)
-		} else {
-			c.Next()
+			return
 		}
+
+		c.Next()
 	}
 }
 
-/********************* AUTH **********************/
 func main() {
 	engine := gin.Default()
 
@@ -32,19 +33,7 @@ func main() {
 	cookieSession := cookie.NewStore([]byte(utils.SecretKey))
 
 	// Usa el middleware de CORS personalizado
-	engine.Use(func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true") // Agrega esta línea
-
-		if c.Request.Method == stdhttp.MethodOptions {
-			c.AbortWithStatus(stdhttp.StatusOK)
-			return
-		}
-
-		c.Next()
-	})
+	engine.Use(corsMiddleware())
 
 	engine.Use(sessions.Sessions("session", cookieSession))
 
