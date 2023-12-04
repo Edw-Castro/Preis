@@ -18,3 +18,7 @@ func NewProductService(repo ports.ProductRepository) *productService {
 func (ps *productService) Detail(id int) (domain.Product, error) {
 	return ps.repo.GetByID(id)
 }
+
+func (ps *productService) GetAllProducts() ([]domain.Product, error) {
+	return ps.repo.GetAllProducts()
+}

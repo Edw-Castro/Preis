@@ -11,7 +11,7 @@ import (
 )
 
 func ProductDetail() func(c *gin.Context) {
-	db, err := database.SetupDatabaseProductsConnection()
+	db, err := database.SetupDatabaseArticleConnection()
 	if err != nil {
 		log.Fatalf("Error cannot connect to db: %v", err)
 	}

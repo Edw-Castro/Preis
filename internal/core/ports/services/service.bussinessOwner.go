@@ -4,6 +4,7 @@ import "github.com/Edw-Castro/Preis/internal/core/domain"
 
 type BusinessOwnerService interface {
 	SignUp(businessOwner *domain.User) error
+	Login(BusinessOwner *domain.User) (*domain.User, error)
 	// GetAllProducts(id ...int) ([]domain.Product, error)
 	// GetProduct(id int) (domain.Product, error)
 	// CreateProduct(product domain.Product)

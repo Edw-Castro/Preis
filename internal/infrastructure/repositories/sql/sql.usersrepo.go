@@ -12,10 +12,10 @@ func NewUserRepository(db Gorm) *Repository {
 	}
 }
 
-func (r *Repository) Insert(businessOwner *domain.User) error {
+func (r *Repository) Insert(user *domain.User) error {
 
 	repo := *r.db
-	result := repo.Table("users").Create(&businessOwner)
+	result := repo.Table("user").Create(&user)
 	if result.Error != nil {
 		return result.Error
 	}
@@ -23,11 +23,10 @@ func (r *Repository) Insert(businessOwner *domain.User) error {
 }
 
 func (r *Repository) GetClientUserByEmail(email string) (domain.User, error) {
+	fmt.Println("El mail es", email)
 	client := &domain.User{}
-	// Realizar una consulta SQL para obtener la persona por ID
 	repo := *r.db
-	result := repo.Table("users").Where("email = ?", email).Select("id, name, email, role").Scan(&client)
-	fmt.Println("Lo que encontró la base de datos", result)
-
+	repo.Table("user").Where("mail = ?", email).Select("user_id, name_user, mail, rol, pwd").Scan(&client)
+	fmt.Println("El cliente o usaurio obtenido es:", client)
 	return *client, nil
 }

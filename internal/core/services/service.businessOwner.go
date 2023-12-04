@@ -7,6 +7,7 @@ import (
 
 	"github.com/Edw-Castro/Preis/internal/core/domain"
 	ports "github.com/Edw-Castro/Preis/internal/core/ports/repositories"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type businessOwnerService struct {
@@ -21,7 +22,6 @@ func NewBusinessOwnerService(repo ports.BusinessOwnerRepository) *businessOwnerS
 
 func (bos *businessOwnerService) SignUp(businessOwner *domain.User) error {
 	user, err := bos.repo.GetClientUserByEmail(businessOwner.Email)
-	fmt.Println("pasé de user en SignUp")
 	if err != nil {
 		log.Fatalf("El error es %v", err)
 		return err
@@ -38,4 +38,19 @@ func (bos *businessOwnerService) SignUp(businessOwner *domain.User) error {
 	}
 	fmt.Println("ya se registró")
 	return nil
+}
+
+func (bos *businessOwnerService) Login(businessOwner *domain.User) (*domain.User, error) {
+	user, err := bos.repo.GetClientUserByEmail(businessOwner.Email)
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+		return nil, err
+	}
+
+	// Comparar los hashes
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(businessOwner.Password)); err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }

@@ -10,13 +10,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SignUpBusinessOwner() func(c *gin.Context) {
-	db, err := database.SetupDatabaseUsersConnection()
+func ProductCompare() func(*gin.Context) {
+	db1, err := database.SetupDatabaseArticleConnection()
+	db2, err := database.SetupDatabaseUsersConnection()
 	if err != nil {
 		log.Fatalf("Error cannot connect to db: %v", err)
 	}
-	repoBusinessOwner := sql.NewUserRepository(db)
-	servBusinessOwner := services.NewBusinessOwnerService(repoBusinessOwner)
-	postBusinessOwnerEndPoint := server.PostBusinessOwnerEndpoint(servBusinessOwner)
-	return postBusinessOwnerEndPoint
+	repoArticlePrice := sql.NewArticleRepository(db1, db2)
+	servProduct := services.NewArticlePriceService(repoArticlePrice)
+	getProductEndpoint := server.Compare(servProduct)
+	return getProductEndpoint
 }
